@@ -48,8 +48,5 @@ public class UserServiceImpl implements UserService {
         return dao.getAllUsers();
     }
 
-    @Transactional
-    @Override
-    public void changeUser(Long id, User user) { dao.changeUser(id, user); }
 
 }

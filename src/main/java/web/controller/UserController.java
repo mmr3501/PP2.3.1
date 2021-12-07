@@ -3,9 +3,7 @@ package web.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
 import web.model.User;
 import web.service.UserService;
 import java.util.ArrayList;
@@ -14,8 +12,12 @@ import java.util.List;
 @Controller
 public class UserController {
 
+    private final UserService userService;
+
     @Autowired
-    private UserService userService;
+    public UserController(UserService userService) {
+        this.userService = userService;
+    }
 
     @GetMapping("/")
     public String getUserList(Model model) {
@@ -24,14 +26,15 @@ public class UserController {
     }
 
     @GetMapping("/adduser")
-    public String addUser() {
+    public String addUser(Model model) {
+        model.addAttribute("user", new User());
         return "adduser";
     }
 
     @PostMapping("/adduser")
     public String createUser(User user) {
         userService.saveUser(user);
-        return "redirect:/users";
+        return "redirect:/";
     }
 
     @GetMapping("/edit/{id}")
@@ -44,13 +47,12 @@ public class UserController {
     @PostMapping("/edit")
     public String updateUser(User user){
         userService.saveUser(user);
-        return "redirect:/users";
+        return "redirect:/";
     }
 
     @GetMapping("delete/{id}")
     public String deleteUser(@PathVariable("id") Long id){
         userService.removeUserById(id);
-        return "redirect:/users";
+        return "redirect:/";
     }
-
 }

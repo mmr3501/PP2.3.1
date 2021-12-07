@@ -26,7 +26,7 @@ public class UserDaoImpl implements UserDao {
 
     @Override
     public void saveUser(User user) {
-        em.persist(user);
+        em.merge(user);
     }
 
     @Override
@@ -43,15 +43,6 @@ public class UserDaoImpl implements UserDao {
     @Override
     public List<User> getAllUsers() {
         return em.createQuery("FROM User", User.class).getResultList();
-    }
-
-    @Override
-    public void changeUser(Long id, User user) {
-        User changedUser = getUserById(id);
-        changedUser.setAge(user.getAge());
-        changedUser.setName(user.getName());
-        changedUser.setLastname(user.getLastname());
-        em.merge(changedUser);
     }
 
     @Override
